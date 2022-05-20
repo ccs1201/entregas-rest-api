@@ -6,11 +6,10 @@ import br.com.ccs.api.domain.model.Cliente;
 import br.com.ccs.api.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collection;
-import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -49,19 +48,12 @@ public class ClienteService {
 
     }
 
-    public Collection<Cliente> findAll() {
+    public Page<Cliente> findAll(Pageable pageable) {
 
-        return repository.findAll();
+        return repository.findAll(pageable);
     }
 
     public Cliente findById(Long id) {
-        try {
-            return repository.findById(id).get();
-
-        } catch (IllegalArgumentException e) {
-            throw new CrudException("Id não pode ser null.");
-        } catch (NoSuchElementException e) {
-            throw new EntityNotFoundException("Cliente ID: " + id + " não existe.");
-        }
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cliente ID: " + id + " não existe."));
     }
 }

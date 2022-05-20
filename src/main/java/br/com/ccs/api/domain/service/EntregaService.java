@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
 
 @Service
 public class EntregaService {
@@ -74,7 +73,9 @@ public class EntregaService {
     public Entrega update(Long id, Entrega entrega) {
         try {
             entrega.setId(id);
-            entrega.setComissaoServico(calcularComissaoServico(entrega.getValorEntrega()));
+            entrega.setComissaoServico(
+                    calcularComissaoServico(entrega.getValorEntrega())
+            );
             return repository.save(entrega);
         } catch (EmptyResultDataAccessException e) {
             throw createEntityNotFoundException(id);
@@ -86,13 +87,7 @@ public class EntregaService {
     }
 
     public Entrega findById(Long id) {
-        try {
-            return repository.findById(id).get();
-        } catch (EmptyResultDataAccessException e) {
-            throw createEntityNotFoundException(id);
-        } catch (NoSuchElementException e) {
-            throw createEntityNotFoundException(id);
-        }
+            return repository.findById(id).orElseThrow(() -> createEntityNotFoundException(id));
     }
 
     private EntityNotFoundException createEntityNotFoundException(Long id) {
