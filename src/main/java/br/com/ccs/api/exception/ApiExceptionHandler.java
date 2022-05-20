@@ -32,10 +32,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         dto.setStatus(status.value());
         dto.setMensagem("Erro em um ou mais campos, verifique...");
 
-        ex.getFieldErrors().forEach(error -> {
-            dto.getCampos().add(
-                    dto.new Campo(error.getField(), messageSource.getMessage(error, LocaleContextHolder.getLocale())));
-        });
+        ex.getFieldErrors().forEach(error -> dto.getCampos().add(
+                dto.new Campo(error.getField(), messageSource.getMessage(error, LocaleContextHolder.getLocale()))));
 
         return handleExceptionInternal(ex, dto, headers, status, request);
     }

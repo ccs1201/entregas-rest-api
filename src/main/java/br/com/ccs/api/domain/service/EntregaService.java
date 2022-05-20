@@ -6,6 +6,8 @@ import br.com.ccs.api.domain.model.StatusEntrega;
 import br.com.ccs.api.repository.EntregaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,7 +23,7 @@ public class EntregaService {
     public Entrega save(Entrega entrega) {
 
         entrega.setDataPedido(LocalDateTime.now());
-        entrega.setStatusEntrega(StatusEntrega.PENDENDE);
+        entrega.setStatusEntrega(StatusEntrega.PENDENTE);
 
         return repository.save(entrega);
 
@@ -44,5 +46,9 @@ public class EntregaService {
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException("Entrega não localizada. Impossível atualizar ID: " + id);
         }
+    }
+
+    public Page<Entrega> getAll(Pageable pageable){
+        return repository.findAll(pageable);
     }
 }
