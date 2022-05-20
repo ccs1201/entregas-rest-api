@@ -4,19 +4,43 @@ import br.com.ccs.api.domain.exception.EntityNotFoundException;
 import br.com.ccs.api.domain.model.Entrega;
 import br.com.ccs.api.domain.model.StatusEntrega;
 import br.com.ccs.api.repository.EntregaRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @Service
-@AllArgsConstructor
 public class EntregaService {
+
+    public EntregaService(EntregaRepository repository, ClienteService clienteService, DestinatarioService destinatarioService) {
+        this.repository = repository;
+        this.clienteService = clienteService;
+        this.destinatarioService = destinatarioService;
+    }
+
+    /**
+     * The percentage of commission for an Entrega.
+     * Ex.
+     * percentualComissao = 15 represente 15% of commission
+     * percentualComissao = 8 represente 8% of commission
+     * percentualComissao = 33 represente 33% of commission
+     */
+    public int percentualComissao = 15;
+
+    public int getPercentualComissao() {
+        return percentualComissao;
+    }
+
+    public void setPercentualComissao(int percentualComissao) {
+        this.percentualComissao = percentualComissao;
+    }
 
     EntregaRepository repository;
     ClienteService clienteService;
@@ -29,6 +53,10 @@ public class EntregaService {
         entrega.setDestinatario(destinatarioService.findById(entrega.getDestinatario().getId()));
         entrega.setDataPedido(LocalDateTime.now());
         entrega.setStatusEntrega(StatusEntrega.PENDENTE);
+
+        entrega.setComissaoServico(
+                calcularComissaoServico(entrega.getValorEntrega())
+        );
 
         return repository.save(entrega);
     }
@@ -46,6 +74,7 @@ public class EntregaService {
     public Entrega update(Long id, Entrega entrega) {
         try {
             entrega.setId(id);
+            entrega.setComissaoServico(calcularComissaoServico(entrega.getValorEntrega()));
             return repository.save(entrega);
         } catch (EmptyResultDataAccessException e) {
             throw createEntityNotFoundException(id);
@@ -66,7 +95,22 @@ public class EntregaService {
         }
     }
 
-    private EntityNotFoundException createEntityNotFoundException(Long id){
+    private EntityNotFoundException createEntityNotFoundException(Long id) {
         return new EntityNotFoundException("Entrega ID: " + id + ", não existe.");
+    }
+
+    private BigDecimal calcularComissaoServico(BigDecimal valorEntrega) {
+
+        BigDecimal comissao = new BigDecimal(BigInteger.ZERO);
+        try {
+            BigDecimal percentual = new BigDecimal(this.percentualComissao).divide(new BigDecimal("100"));
+
+            comissao = valorEntrega.multiply(percentual).setScale(2, RoundingMode.HALF_UP);
+
+        } catch (ArithmeticException e) {
+            e.printStackTrace();
+        }
+
+        return comissao;
     }
 }
