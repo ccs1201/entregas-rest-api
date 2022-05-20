@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
@@ -40,7 +41,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<Object> cruExceptionsHandler(CrudException ex, WebRequest request) {
+    public ResponseEntity<Object> EntityNotFoundExceptionHandler(CrudException ex, WebRequest request) {
 
         ErrorDto dto = new ErrorDto();
 
@@ -49,5 +50,31 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         dto.setMensagem(ex.getLocalizedMessage());
 
         return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+
+    @ExceptionHandler(CrudException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public ResponseEntity<Object> cruExceptionHandler(CrudException ex, WebRequest request) {
+
+        ErrorDto dto = new ErrorDto();
+
+        dto.setDataHora(LocalDateTime.now());
+        dto.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+        dto.setMensagem(ex.getLocalizedMessage());
+
+        return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE, request);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException ex, WebRequest request){
+        ErrorDto dto = new ErrorDto();
+
+        dto.setDataHora(LocalDateTime.now());
+        dto.setStatus(HttpStatus.BAD_REQUEST.value());
+        dto.setMensagem(ex.getMessage());
+
+        return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 }

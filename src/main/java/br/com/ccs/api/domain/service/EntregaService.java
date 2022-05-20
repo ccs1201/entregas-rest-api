@@ -12,21 +12,25 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
 public class EntregaService {
 
     EntregaRepository repository;
+    ClienteService clienteService;
+    DestinatarioService destinatarioService;
 
     @Transactional
     public Entrega save(Entrega entrega) {
 
+        entrega.setCliente(clienteService.findById(entrega.getCliente().getId()));
+        entrega.setDestinatario(destinatarioService.findById(entrega.getDestinatario().getId()));
         entrega.setDataPedido(LocalDateTime.now());
         entrega.setStatusEntrega(StatusEntrega.PENDENTE);
 
         return repository.save(entrega);
-
     }
 
     @Transactional
@@ -34,7 +38,7 @@ public class EntregaService {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException("Entrega não localizada. Impossível remover ID: " + id);
+            throw createEntityNotFoundException(id);
         }
     }
 
@@ -44,11 +48,25 @@ public class EntregaService {
             entrega.setId(id);
             return repository.save(entrega);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException("Entrega não localizada. Impossível atualizar ID: " + id);
+            throw createEntityNotFoundException(id);
         }
     }
 
-    public Page<Entrega> getAll(Pageable pageable){
+    public Page<Entrega> getAll(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+
+    public Entrega findById(Long id) {
+        try {
+            return repository.findById(id).get();
+        } catch (EmptyResultDataAccessException e) {
+            throw createEntityNotFoundException(id);
+        } catch (NoSuchElementException e) {
+            throw createEntityNotFoundException(id);
+        }
+    }
+
+    private EntityNotFoundException createEntityNotFoundException(Long id){
+        return new EntityNotFoundException("Entrega ID: " + id + ", não existe.");
     }
 }

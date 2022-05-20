@@ -1,8 +1,8 @@
 package br.com.ccs.api.controller;
 
-import javax.validation.Valid;
-import javax.websocket.server.PathParam;
-
+import br.com.ccs.api.domain.model.Destinatario;
+import br.com.ccs.api.domain.service.DestinatarioService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -10,9 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import br.com.ccs.api.domain.model.Destinatario;
-import br.com.ccs.api.domain.service.DestinatarioService;
-import lombok.AllArgsConstructor;
+import javax.validation.Valid;
 
 @RestController
 @AllArgsConstructor
@@ -60,5 +58,10 @@ public class DestinatarioController {
 
         return service.findByNomeContaining(nome, pageable);
 
+    }
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.FOUND)
+    public Destinatario findById(@PathVariable Long id){
+        return service.findById(id);
     }
 }

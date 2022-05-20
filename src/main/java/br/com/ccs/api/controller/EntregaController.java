@@ -46,4 +46,10 @@ public class EntregaController {
         return service.getAll(pageable);
     }
 
+    @GetMapping("{id}")
+    @ResponseStatus(HttpStatus.FOUND)
+    public Entrega findbyId(@PathVariable Long id){
+        return service.findById(id);
+    }
+
 }

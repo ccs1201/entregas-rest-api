@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 @Service
 @AllArgsConstructor
 public class DestinatarioService {
@@ -26,18 +28,14 @@ public class DestinatarioService {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException("Destinatário não localizado. Impossível remover ID: " + id);
+            throw new EntityNotFoundException("Destinatário ID: " + id + " não existe.");
         }
-
     }
 
     @Transactional
     public Destinatario update(Long id, Destinatario destinatario) {
 
-        if (repository.findById(id).isEmpty()) {
-            throw new EntityNotFoundException("Destinatário não localizado. Impossível atualizar ID: " + id);
-        }
-
+        this.findById(id);
         destinatario.setId(id);
         return repository.save(destinatario);
     }
@@ -49,5 +47,16 @@ public class DestinatarioService {
 
     public Page<Destinatario> findByNomeContaining(String nome, Pageable pageable) {
         return repository.findByNomeContaining(nome, pageable);
+    }
+
+    public Destinatario findById(Long id) {
+
+        try {
+            return repository.findById(id).get();
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntityNotFoundException("Destinatário ID: " + id + " não existe.");
+        } catch (NoSuchElementException e) {
+            throw new EntityNotFoundException("Destinatário ID: " + id + " não existe.");
+        }
     }
 }

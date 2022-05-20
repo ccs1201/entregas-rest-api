@@ -1,60 +1,67 @@
 package br.com.ccs.api.domain.service;
 
-import java.util.Collection;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import br.com.ccs.api.domain.exception.CrudException;
+import br.com.ccs.api.domain.exception.EntityNotFoundException;
 import br.com.ccs.api.domain.model.Cliente;
 import br.com.ccs.api.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collection;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
 public class ClienteService {
 
-	ClienteRepository repository;
+    ClienteRepository repository;
 
-	@Transactional
-	public Cliente save(Cliente cliente) {
+    @Transactional
+    public Cliente save(Cliente cliente) {
 
-		if (repository.findByEmail(cliente.getEmail()).isPresent()) {
-			throw new CrudException("E-mail já cadastrado.");
-		}
+        if (repository.findByEmail(cliente.getEmail()).isPresent()) {
+            throw new CrudException("E-mail já cadastrado.");
+        }
 
-			return repository.save(cliente);
-	}
+        return repository.save(cliente);
+    }
 
-	@Transactional
-	public void delete(Long id) {
-		
-		try {
-			repository.deleteById(id);
-		} catch (IllegalArgumentException e) {
-			throw new CrudException("Erro ao remover Cliente com ID: " + id);
-		}
-		
-	}
+    @Transactional
+    public void delete(Long id) {
 
-	@Transactional
-	public Cliente update(Long id, Cliente cliente) {
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntityNotFoundException("Cliente ID: " + id + " não existe.");
+        }
+    }
 
-		cliente.setId(id);
+    @Transactional
+    public Cliente update(Long id, Cliente cliente) {
 
-		return repository.save(cliente);
+        this.findById(id);
 
-	}
+        cliente.setId(id);
 
-	public Collection<Cliente> findAll() {
+        return repository.save(cliente);
 
-		return repository.findAll();
-	}
+    }
 
-	public Optional<Cliente> findById(Long id) {
+    public Collection<Cliente> findAll() {
 
-		return repository.findById(id);
-	}
+        return repository.findAll();
+    }
 
+    public Cliente findById(Long id) {
+        try {
+            return repository.findById(id).get();
+
+        } catch (IllegalArgumentException e) {
+            throw new CrudException("Id não pode ser null.");
+        } catch (NoSuchElementException e) {
+            throw new EntityNotFoundException("Cliente ID: " + id + " não existe.");
+        }
+    }
 }
