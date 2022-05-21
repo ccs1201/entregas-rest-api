@@ -51,7 +51,7 @@ public class EntregaController {
     }
 
     @GetMapping("{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find a Entrega by their id")
     public Entrega findbyId(@PathVariable Long id){
         return service.findById(id);

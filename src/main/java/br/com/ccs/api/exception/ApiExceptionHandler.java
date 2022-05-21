@@ -5,6 +5,7 @@ import br.com.ccs.api.domain.exception.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,5 +77,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         dto.setMensagem(ex.getMessage());
 
         return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> PropertyReferenceExceptionHandler(PropertyReferenceException ex, WebRequest request){
+        ErrorDto dto = new ErrorDto();
+
+        dto.setDataHora(LocalDateTime.now());
+        dto.setStatus(HttpStatus.BAD_REQUEST.value());
+        dto.setMensagem(ex.getMessage());
+
+        return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+
     }
 }

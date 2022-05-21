@@ -64,7 +64,7 @@ public class DestinatarioController {
 
     }
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find a Destinatario by their id")
     public Destinatario findById(@PathVariable Long id){
         return service.findById(id);

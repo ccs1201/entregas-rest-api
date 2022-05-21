@@ -27,9 +27,9 @@ public class EntregaService {
     /**
      * The percentage of commission for an Entrega.
      * Ex.
-     * percentualComissao = 15 represente 15% of commission
-     * percentualComissao = 8 represente 8% of commission
-     * percentualComissao = 33 represente 33% of commission
+     * percentualComissao = 15 represents 15% of commission
+     * percentualComissao = 8 represents 8% of commission
+     * percentualComissao = 33 represents 33% of commission
      */
     public int percentualComissao = 15;
 
@@ -98,7 +98,7 @@ public class EntregaService {
 
         BigDecimal comissao = new BigDecimal(BigInteger.ZERO);
         try {
-            BigDecimal percentual = new BigDecimal(this.percentualComissao).divide(new BigDecimal("100"));
+            BigDecimal percentual = new BigDecimal(this.percentualComissao).divide(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
 
             comissao = valorEntrega.multiply(percentual).setScale(2, RoundingMode.HALF_UP);
 

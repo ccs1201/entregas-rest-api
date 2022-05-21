@@ -29,7 +29,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find a Cliente by their id")
     public Cliente findByID(@PathVariable Long id) {
 
@@ -39,7 +39,7 @@ public class ClienteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Insert a Cliente")
-    public Cliente adicionar(@Valid @RequestBody Cliente cliente) {
+    public Cliente save(@Valid @RequestBody Cliente cliente) {
 
         cliente = service.save(cliente);
 
@@ -58,7 +58,7 @@ public class ClienteController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Delete a cliente")
-    public void remove(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         service.delete(id);
     }
 }
