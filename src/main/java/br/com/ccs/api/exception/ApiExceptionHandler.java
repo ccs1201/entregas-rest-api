@@ -5,6 +5,7 @@ import br.com.ccs.api.domain.exception.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 
 @ControllerAdvice
@@ -42,7 +44,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<Object> EntityNotFoundExceptionHandler(CrudException ex, WebRequest request) {
+    public ResponseEntity<Object> entityNotFoundExceptionHandler(CrudException ex, WebRequest request) {
 
         ErrorDto dto = new ErrorDto();
 
@@ -81,7 +83,34 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(PropertyReferenceException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Object> PropertyReferenceExceptionHandler(PropertyReferenceException ex, WebRequest request){
+    public ResponseEntity<Object> propertyReferenceExceptionHandler(PropertyReferenceException ex, WebRequest request){
+        ErrorDto dto = new ErrorDto();
+
+        dto.setDataHora(LocalDateTime.now());
+        dto.setStatus(HttpStatus.BAD_REQUEST.value());
+        dto.setMensagem(ex.getMessage());
+
+        return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> constraintViolationExceptionHandler(ConstraintViolationException ex, WebRequest request){
+        ErrorDto dto = new ErrorDto();
+
+        dto.setDataHora(LocalDateTime.now());
+        dto.setStatus(HttpStatus.BAD_REQUEST.value());
+        dto.setMensagem(ex.getMessage());
+
+        ex.getConstraintViolations().forEach(error -> dto.getCampos().add(
+                dto.new Campo(error.getPropertyPath().toString(),error.getMessage())));
+
+        return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(InvalidDataAccessApiUsageException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> invalidDataAccessApiUsageExceptionHandler(InvalidDataAccessApiUsageException ex, WebRequest request){
         ErrorDto dto = new ErrorDto();
 
         dto.setDataHora(LocalDateTime.now());

@@ -24,38 +24,41 @@ class EntregaServiceTest {
     Entrega entrega = new Entrega();
     Cliente cliente = new Cliente();
     Destinatario destinatario = new Destinatario();
+    BigDecimal expectedCommission;
 
     @BeforeAll
     private void init(){
 
-        service.setPercentualComissao(10);
-
-        cliente.setId(1L);
-        destinatario.setId(1L);
+        cliente.setId(7L);
+        destinatario.setId(4L);
 
         entrega.setCliente(cliente);
         entrega.setDestinatario(destinatario);
-        entrega.setValorEntrega(new BigDecimal("435.99"));
+        entrega.setPercentualComissao(10);
 
-        entrega = service.save(entrega);
     }
 
     @Test
     @DisplayName("Testa Calculo da Comissão de Serviço Assertivo")
     void TestaComissaoServico() {
 
+        entrega.setValorEntrega(new BigDecimal("435.99"));
 
+        expectedCommission = new BigDecimal(43.60).setScale(2,RoundingMode.HALF_UP);
 
-        Assertions.assertEquals(expectedCommission(),entrega.getComissaoServico());
+        entrega = service.save(entrega);
+
+        Assertions.assertEquals(expectedCommission,entrega.getValorComissaoEntrega());
 
     }
-
+/*
     private BigDecimal expectedCommission(){
 
         BigDecimal expectedResult = entrega.getValorEntrega();
-        BigDecimal percentualComissao = new BigDecimal(service.getPercentualComissao()).divide(new BigDecimal("100"));
+        BigDecimal percentualComissao = new BigDecimal(entrega.getPercentualComissao()).divide(new BigDecimal("100"));
         expectedResult = expectedResult.multiply(percentualComissao).setScale(2, RoundingMode.HALF_UP);
 
         return expectedResult;
     }
+    */
 }
