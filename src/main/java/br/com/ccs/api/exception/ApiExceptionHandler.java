@@ -19,7 +19,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @ControllerAdvice
 @AllArgsConstructor
@@ -32,7 +32,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         ErrorDto dto = new ErrorDto();
 
-        dto.setDataHora(LocalDateTime.now());
+        dto.setDataHora(OffsetDateTime.now());
         dto.setStatus(status.value());
         dto.setMensagem("Erro em um ou mais campos, verifique...");
 
@@ -48,7 +48,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         ErrorDto dto = new ErrorDto();
 
-        dto.setDataHora(LocalDateTime.now());
+        dto.setDataHora(OffsetDateTime.now());
         dto.setStatus(HttpStatus.NOT_FOUND.value());
         dto.setMensagem(ex.getLocalizedMessage());
 
@@ -62,7 +62,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         ErrorDto dto = new ErrorDto();
 
-        dto.setDataHora(LocalDateTime.now());
+        dto.setDataHora(OffsetDateTime.now());
         dto.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
         dto.setMensagem(ex.getLocalizedMessage());
 
@@ -74,7 +74,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException ex, WebRequest request){
         ErrorDto dto = new ErrorDto();
 
-        dto.setDataHora(LocalDateTime.now());
+        dto.setDataHora(OffsetDateTime.now());
         dto.setStatus(HttpStatus.BAD_REQUEST.value());
         dto.setMensagem(ex.getMessage());
 
@@ -86,7 +86,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> propertyReferenceExceptionHandler(PropertyReferenceException ex, WebRequest request){
         ErrorDto dto = new ErrorDto();
 
-        dto.setDataHora(LocalDateTime.now());
+        dto.setDataHora(OffsetDateTime.now());
         dto.setStatus(HttpStatus.BAD_REQUEST.value());
         dto.setMensagem(ex.getMessage());
 
@@ -98,7 +98,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> constraintViolationExceptionHandler(ConstraintViolationException ex, WebRequest request){
         ErrorDto dto = new ErrorDto();
 
-        dto.setDataHora(LocalDateTime.now());
+        dto.setDataHora(OffsetDateTime.now());
         dto.setStatus(HttpStatus.BAD_REQUEST.value());
         dto.setMensagem(ex.getMessage());
 
@@ -113,7 +113,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> invalidDataAccessApiUsageExceptionHandler(InvalidDataAccessApiUsageException ex, WebRequest request){
         ErrorDto dto = new ErrorDto();
 
-        dto.setDataHora(LocalDateTime.now());
+        dto.setDataHora(OffsetDateTime.now());
         dto.setStatus(HttpStatus.BAD_REQUEST.value());
         dto.setMensagem(ex.getMessage());
 

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Service
 @AllArgsConstructor
@@ -28,7 +28,7 @@ public class EntregaService {
 
         entrega.setCliente(clienteService.findById(entrega.getCliente().getId()));
         entrega.setDestinatario(destinatarioService.findById(entrega.getDestinatario().getId()));
-        entrega.setDataPedido(LocalDateTime.now());
+        entrega.setDataPedido(OffsetDateTime.now());
         entrega.setStatusEntrega(StatusEntrega.PENDENTE);
         calcularComissaoServico(entrega);
 
