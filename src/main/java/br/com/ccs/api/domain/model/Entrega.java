@@ -53,7 +53,7 @@ public class Entrega {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private OffsetDateTime dataFinalizacao;
 	/**
-	 * The percentage of commission for an Entrega.
+	 * The percentage of commission for a Entrega.
 	 * Ex.
 	 * percentualComissao = 15 represents 15% of commission
 	 * percentualComissao = 8 represents 8% of commission

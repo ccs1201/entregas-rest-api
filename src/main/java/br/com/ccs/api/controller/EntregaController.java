@@ -2,6 +2,7 @@ package br.com.ccs.api.controller;
 
 import br.com.ccs.api.domain.model.Entrega;
 import br.com.ccs.api.domain.service.EntregaService;
+import br.com.ccs.api.model.representation.EntregaDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,9 +24,9 @@ public class EntregaController {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     @Operation(summary = "Insert a Entrega")
-    public Entrega save(@Valid @RequestBody Entrega entrega) {
+    public EntregaDto save(@Valid @RequestBody Entrega entrega) {
 
-        return service.save(entrega);
+        return new EntregaDto(service.save(entrega));
     }
 
     @DeleteMapping("/{id}")
@@ -45,16 +46,19 @@ public class EntregaController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "List all Entrega Entities, plus have a pageable param with sort, direction and page size")
-    public Page<Entrega> getAll(@PageableDefault(size = 20, direction = Sort.Direction.ASC, sort = "dataPedido")
-                                          Pageable pageable){
-        return service.getAll(pageable);
+    public Page<EntregaDto> getAll(@PageableDefault(size = 20, direction = Sort.Direction.ASC, sort = "dataPedido")
+                                   Pageable pageable) {
+
+
+        return EntregaDto.entregaDtoPage(service.getAll(pageable));
     }
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find a Entrega by their id")
-    public Entrega findbyId(@PathVariable Long id){
-        return service.findById(id);
+    public EntregaDto findbyId(@PathVariable Long id) {
+
+        return new EntregaDto(service.findById(id));
     }
 
 }
