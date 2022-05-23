@@ -1,13 +1,9 @@
 package br.com.ccs.api.model.representation;
 
-import br.com.ccs.api.domain.model.Entrega;
 import br.com.ccs.api.domain.model.StatusEntrega;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -15,10 +11,7 @@ import java.time.OffsetDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class EntregaDto {
-
-    @JsonIgnore
-    private ModelMapper mapper;
+public class EntregaDto extends DtoObject{
 
     private Long id;
     private DestinatarioDto destinatario;
@@ -30,19 +23,19 @@ public class EntregaDto {
     private OffsetDateTime dataFinalizacao;
     private int percentualComissao;
 
-    public EntregaDto(ModelMapper mapper) {
+    /*public EntregaDto(ModelMapper mapper) {
         this.mapper = mapper;
 
-        /*this.id = entrega.getId();
+        *//*this.id = entrega.getId();
         this.dataFinalizacao = entrega.getDataFinalizacao();
         this.dataPedido = entrega.getDataPedido();
         this.valorComissaoEntrega = entrega.getValorComissaoEntrega();
         this.statusEntrega = entrega.getStatusEntrega();
         this.cliente = new ClienteDto(entrega.getCliente());
-        this.destinatario = new DestinatarioDto(entrega.getDestinatario());*/
-    }
+        this.destinatario = new DestinatarioDto(entrega.getDestinatario());*//*
+    }*/
 
-    public EntregaDto mapperToDto(Entrega entrega) {
+   /* public EntregaDto mapperToDto(Entrega entrega) {
         return mapper.map(entrega, EntregaDto.class);
     }
 
@@ -50,5 +43,5 @@ public class EntregaDto {
 
         return page.map(this::mapperToDto);
 
-    }
+    }*/
 }

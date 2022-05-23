@@ -1,26 +1,21 @@
 package br.com.ccs.api.model.representation;
 
-import br.com.ccs.api.domain.model.Cliente;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class ClienteDto {
-    @JsonIgnore
-    private ModelMapper mapper;
+public class ClienteDto extends DtoObject{
+
     private String nome;
     private String email;
     private String telefone;
 
-    public ClienteDto(ModelMapper mapper) {
+   /* public ClienteDto(ModelMapper mapper) {
         this.mapper = mapper;
-    }
+    }*/
 
   /*  public ClienteDto(Cliente cliente) {
         this.nome = cliente.getNome();
@@ -28,7 +23,7 @@ public class ClienteDto {
         this.telefone = cliente.getTelefone();
     }*/
 
-    public ClienteDto mapperToDto(Cliente cliente) {
+  /*  public ClienteDto mapperToDto(Cliente cliente) {
         return mapper.map(cliente, ClienteDto.class);
     }
 
@@ -36,5 +31,5 @@ public class ClienteDto {
 
         return page.map(this::mapperToDto);
 
-    }
+    }*/
 }
