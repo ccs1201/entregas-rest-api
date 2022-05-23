@@ -18,6 +18,10 @@ public class ClienteDto {
     private String email;
     private String telefone;
 
+    public ClienteDto(ModelMapper mapper) {
+        this.mapper = mapper;
+    }
+
   /*  public ClienteDto(Cliente cliente) {
         this.nome = cliente.getNome();
         this.email = cliente.getEmail();

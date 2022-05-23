@@ -42,7 +42,7 @@ public class EntregaDto {
         this.destinatario = new DestinatarioDto(entrega.getDestinatario());*/
     }
 
-    public  EntregaDto mapperToDto(Entrega entrega) {
+    public EntregaDto mapperToDto(Entrega entrega) {
         return mapper.map(entrega, EntregaDto.class);
     }
 

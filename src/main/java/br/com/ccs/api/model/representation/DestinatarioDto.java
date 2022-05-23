@@ -26,15 +26,16 @@ public class DestinatarioDto {
     private String bairro;
 
     private String telefoneContato;
-/*
-    public DestinatarioDto(Destinatario destinatario) {
-        this.nome = destinatario.getNome();
+
+    public DestinatarioDto(ModelMapper mapper) {
+        this.mapper = mapper;
+       /* this.nome = destinatario.getNome();
         this.logradouro = destinatario.getLogradouro();
         this.numero = destinatario.getNumero();
         this.complemento = destinatario.getComplemento();
         this.bairro = destinatario.getBairro();
-        this.telefoneContato = destinatario.getTelefoneContato();
-    }*/
+        this.telefoneContato = destinatario.getTelefoneContato();*/
+    }
 
 
     public DestinatarioDto mapperToDto(Destinatario destinatario) {
