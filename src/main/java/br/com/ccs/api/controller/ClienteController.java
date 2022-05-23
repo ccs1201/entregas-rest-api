@@ -2,6 +2,8 @@ package br.com.ccs.api.controller;
 
 import br.com.ccs.api.domain.model.Cliente;
 import br.com.ccs.api.domain.service.ClienteService;
+import br.com.ccs.api.model.representation.ClienteDto;
+import br.com.ccs.api.model.representation.mapper.ClienteMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,40 +21,39 @@ import javax.validation.Valid;
 public class ClienteController {
 
     ClienteService service;
+    ClienteMapper mapper;
 
     @GetMapping
     @Operation(summary = "List all Cliente with plus Pageable")
-    public Page<Cliente> getAll(@PageableDefault(size = 20, direction = Sort.Direction.ASC, sort = "nome")
+    public Page<ClienteDto> getAll(@PageableDefault(size = 20, direction = Sort.Direction.ASC, sort = "nome")
                                 Pageable pageable) {
 
-        return service.findAll(pageable);
+        return mapper.toPage(service.findAll(pageable));
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find a Cliente by their id")
-    public Cliente findByID(@PathVariable Long id) {
+    public ClienteDto findByID(@PathVariable Long id) {
 
-        return service.findById(id);
+        return mapper.toDto(service.findById(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Insert a Cliente")
-    public Cliente save(@Valid @RequestBody Cliente cliente) {
+    public ClienteDto save(@Valid @RequestBody Cliente cliente) {
 
-        cliente = service.save(cliente);
-
-        return cliente;
+        return mapper.toDto(service.save(cliente));
 
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update a cliente")
-    public Cliente update(@Valid @PathVariable Long id, @RequestBody Cliente cliente) {
-        cliente = service.update(id, cliente);
-        return cliente;
+    public ClienteDto update(@Valid @PathVariable Long id, @RequestBody Cliente cliente) {
+        return mapper.toDto(service.update(id, cliente));
+
     }
 
     @DeleteMapping("/{id}")
