@@ -13,6 +13,7 @@ import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.Collection;
 
 @Entity
 @NoArgsConstructor
@@ -62,5 +63,7 @@ public class Entrega {
 	@Min(5)
 	@Max(100)
 	private int percentualComissao;
+	@OneToMany(mappedBy = "entrega")
+	private Collection<Ocorrencia> ocorrencias;
 
 }
