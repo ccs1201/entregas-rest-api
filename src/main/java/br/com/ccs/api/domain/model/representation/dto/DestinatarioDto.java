@@ -1,4 +1,4 @@
-package br.com.ccs.api.model.representation;
+package br.com.ccs.api.domain.model.representation.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

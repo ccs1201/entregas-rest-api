@@ -1,7 +1,7 @@
-package br.com.ccs.api.model.representation.mapper;
+package br.com.ccs.api.domain.model.representation.util.mapper;
 
 import br.com.ccs.api.domain.model.Destinatario;
-import br.com.ccs.api.model.representation.DestinatarioDto;
+import br.com.ccs.api.domain.model.representation.dto.DestinatarioDto;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;

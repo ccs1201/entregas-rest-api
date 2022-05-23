@@ -1,5 +1,6 @@
 package br.com.ccs.api.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,7 @@ public class Ocorrencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private long id;
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "entrega_id")
     @NotNull
@@ -26,6 +27,7 @@ public class Ocorrencia {
     @NotEmpty
     private String descricaoOcorrencia;
     @NotNull
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private OffsetDateTime dataRegistro;
 
 }

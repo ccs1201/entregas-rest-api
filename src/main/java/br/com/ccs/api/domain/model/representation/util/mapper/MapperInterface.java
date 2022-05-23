@@ -1,6 +1,6 @@
-package br.com.ccs.api.model.representation.mapper;
+package br.com.ccs.api.domain.model.representation.util.mapper;
 
-import br.com.ccs.api.model.representation.DtoObject;
+import br.com.ccs.api.domain.model.representation.dto.DtoObject;
 import org.springframework.data.domain.Page;
 
 import java.util.Collection;

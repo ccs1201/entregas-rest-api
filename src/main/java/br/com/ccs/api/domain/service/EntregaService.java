@@ -49,8 +49,8 @@ public class EntregaService {
         try {
             entrega.setId(id);
             calcularComissaoServico(entrega);
-
             return repository.save(entrega);
+
         } catch (EmptyResultDataAccessException e) {
             throw createEntityNotFoundException(id);
         }

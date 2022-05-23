@@ -2,8 +2,8 @@ package br.com.ccs.api.controller;
 
 import br.com.ccs.api.domain.model.Destinatario;
 import br.com.ccs.api.domain.service.DestinatarioService;
-import br.com.ccs.api.model.representation.DestinatarioDto;
-import br.com.ccs.api.model.representation.mapper.DestinatarioMapper;
+import br.com.ccs.api.domain.model.representation.dto.DestinatarioDto;
+import br.com.ccs.api.domain.model.representation.util.mapper.DestinatarioMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;

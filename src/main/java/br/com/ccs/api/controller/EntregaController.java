@@ -2,8 +2,8 @@ package br.com.ccs.api.controller;
 
 import br.com.ccs.api.domain.model.Entrega;
 import br.com.ccs.api.domain.service.EntregaService;
-import br.com.ccs.api.model.representation.EntregaDto;
-import br.com.ccs.api.model.representation.mapper.EntregaMapper;
+import br.com.ccs.api.domain.model.representation.dto.EntregaDto;
+import br.com.ccs.api.domain.model.representation.util.mapper.EntregaMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
