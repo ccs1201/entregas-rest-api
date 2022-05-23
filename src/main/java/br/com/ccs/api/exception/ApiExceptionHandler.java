@@ -19,6 +19,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.OffsetDateTime;
 
 @ControllerAdvice
@@ -27,6 +28,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     private MessageSource messageSource;
 
     @Override
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
 
@@ -39,58 +41,33 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ex.getFieldErrors().forEach(error -> dto.getCampos().add(
                 dto.new Campo(error.getField(), messageSource.getMessage(error, LocaleContextHolder.getLocale()))));
 
-        return handleExceptionInternal(ex, dto, headers, status, request);
+        return createHandlerException(ex, HttpStatus.BAD_REQUEST, request, dto);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Object> entityNotFoundExceptionHandler(CrudException ex, WebRequest request) {
 
-        ErrorDto dto = new ErrorDto();
-
-        dto.setDataHora(OffsetDateTime.now());
-        dto.setStatus(HttpStatus.NOT_FOUND.value());
-        dto.setMensagem(ex.getLocalizedMessage());
-
-        return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+      return createHandlerException(ex, HttpStatus.NOT_FOUND, request);
     }
 
 
     @ExceptionHandler(CrudException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public ResponseEntity<Object> cruExceptionHandler(CrudException ex, WebRequest request) {
-
-        ErrorDto dto = new ErrorDto();
-
-        dto.setDataHora(OffsetDateTime.now());
-        dto.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
-        dto.setMensagem(ex.getLocalizedMessage());
-
-        return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE, request);
+        return createHandlerException(ex,HttpStatus.NOT_ACCEPTABLE, request);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException ex, WebRequest request){
-        ErrorDto dto = new ErrorDto();
-
-        dto.setDataHora(OffsetDateTime.now());
-        dto.setStatus(HttpStatus.BAD_REQUEST.value());
-        dto.setMensagem(ex.getMessage());
-
-        return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+       return createHandlerException(ex, HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(PropertyReferenceException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> propertyReferenceExceptionHandler(PropertyReferenceException ex, WebRequest request){
-        ErrorDto dto = new ErrorDto();
-
-        dto.setDataHora(OffsetDateTime.now());
-        dto.setStatus(HttpStatus.BAD_REQUEST.value());
-        dto.setMensagem(ex.getMessage());
-
-        return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+      return  createHandlerException(ex,HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -105,19 +82,35 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ex.getConstraintViolations().forEach(error -> dto.getCampos().add(
                 dto.new Campo(error.getPropertyPath().toString(),error.getMessage())));
 
-        return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+        return createHandlerException(ex, HttpStatus.BAD_REQUEST, request, dto);
     }
 
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> invalidDataAccessApiUsageExceptionHandler(InvalidDataAccessApiUsageException ex, WebRequest request){
+
+        return createHandlerException(ex, HttpStatus.BAD_REQUEST, request);
+
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<Object> sqlLIntegrityConstraintViolationExceptionHandler( SQLIntegrityConstraintViolationException ex, WebRequest request){
+        return  createHandlerException(ex,HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
+
+    private ResponseEntity<Object> createHandlerException(Exception exception, HttpStatus httpStatus, WebRequest request){
         ErrorDto dto = new ErrorDto();
 
         dto.setDataHora(OffsetDateTime.now());
-        dto.setStatus(HttpStatus.BAD_REQUEST.value());
-        dto.setMensagem(ex.getMessage());
+        dto.setStatus(httpStatus.value());
+        dto.setMensagem(exception.getMessage());
 
-        return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+        return handleExceptionInternal(exception, dto, new HttpHeaders(), httpStatus, request);
+    }
 
+    private ResponseEntity<Object> createHandlerException(Exception exception, HttpStatus httpStatus, WebRequest request, ErrorDto errorDto){
+
+        return handleExceptionInternal(exception, errorDto, new HttpHeaders(), httpStatus, request);
     }
 }

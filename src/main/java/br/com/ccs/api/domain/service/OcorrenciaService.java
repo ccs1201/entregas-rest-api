@@ -8,6 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -16,11 +17,14 @@ public class OcorrenciaService {
     OcorrenciaRepository repository;
     EntregaService entregaService;
 
-    public Ocorrencia save(long entregaId, Ocorrencia ocorrencia) {
-        ocorrencia.setEntrega(entregaService.findById(entregaId));
+    @Transactional
+    public Ocorrencia save(Ocorrencia ocorrencia) {
+        ocorrencia.setEntrega(entregaService.findById(ocorrencia.getEntrega().getId()));
+
         return repository.save(ocorrencia);
     }
 
+    @Transactional
     public Ocorrencia update(Long id, Ocorrencia ocorrencia) {
 
         try {
@@ -38,6 +42,7 @@ public class OcorrenciaService {
 
     }
 
+    @Transactional
     public void delete(Long id) {
 
         try {

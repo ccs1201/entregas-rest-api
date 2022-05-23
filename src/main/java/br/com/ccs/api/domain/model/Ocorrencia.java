@@ -26,8 +26,8 @@ public class Ocorrencia {
     private Entrega entrega;
     @NotEmpty
     private String descricaoOcorrencia;
-    @NotNull
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private OffsetDateTime dataRegistro;
+    private OffsetDateTime dataCadastro;
 
 }
