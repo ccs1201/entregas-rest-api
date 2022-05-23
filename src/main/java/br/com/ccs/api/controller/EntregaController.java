@@ -5,6 +5,7 @@ import br.com.ccs.api.domain.service.EntregaService;
 import br.com.ccs.api.model.representation.EntregaDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,13 +21,14 @@ import javax.validation.Valid;
 public class EntregaController {
 
     EntregaService service;
+    ModelMapper mapper;
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     @Operation(summary = "Insert a Entrega")
     public EntregaDto save(@Valid @RequestBody Entrega entrega) {
 
-        return new EntregaDto(service.save(entrega));
+        return new EntregaDto(mapper).mapperToDto(service.save(entrega));
     }
 
     @DeleteMapping("/{id}")
@@ -49,8 +51,7 @@ public class EntregaController {
     public Page<EntregaDto> getAll(@PageableDefault(size = 20, direction = Sort.Direction.ASC, sort = "dataPedido")
                                    Pageable pageable) {
 
-
-        return EntregaDto.entregaDtoPage(service.getAll(pageable));
+        return new EntregaDto(mapper).entregaDtoPage(service.getAll(pageable));
     }
 
     @GetMapping("{id}")
@@ -58,7 +59,7 @@ public class EntregaController {
     @Operation(summary = "Find a Entrega by their id")
     public EntregaDto findbyId(@PathVariable Long id) {
 
-        return new EntregaDto(service.findById(id));
+        return new EntregaDto(mapper).mapperToDto(service.findById(id));
     }
 
 }

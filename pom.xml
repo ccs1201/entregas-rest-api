@@ -41,6 +41,13 @@
 		</dependency>
 		<!-- Documentation Dependencies -->
 
+		<!-- modelmapper -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<!-- modelmapper -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
