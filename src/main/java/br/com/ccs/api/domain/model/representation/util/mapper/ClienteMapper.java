@@ -1,7 +1,7 @@
 package br.com.ccs.api.domain.model.representation.util.mapper;
 
 import br.com.ccs.api.domain.model.Cliente;
-import br.com.ccs.api.domain.model.representation.dto.ClienteDto;
+import br.com.ccs.api.domain.model.representation.dto.response.ClienteResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -12,28 +12,28 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component
-public class ClienteMapper implements MapperInterface<ClienteDto, Cliente> {
+public class ClienteMapper implements MapperInterface<ClienteResponse, Cliente> {
     ModelMapper mapper;
 
     @Override
-    public ClienteDto toDto(Cliente cliente) {
-        return mapper.map(cliente, ClienteDto.class);
+    public ClienteResponse toResponseModel(Cliente cliente) {
+        return mapper.map(cliente, ClienteResponse.class);
     }
 
     @Override
-    public Page<ClienteDto> toPage(Page<Cliente> page) {
-        return page.map(this::toDto);
+    public Page<ClienteResponse> toPage(Page<Cliente> page) {
+        return page.map(this::toResponseModel);
     }
 
     @Override
-    public Collection<ClienteDto> toCollection(Page<Cliente> page) {
-        return page.toList().stream().map(this::toDto)
+    public Collection<ClienteResponse> toCollection(Page<Cliente> page) {
+        return page.toList().stream().map(this::toResponseModel)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Collection<ClienteDto> toCollection(Collection<Cliente> collection) {
-        return collection.stream().map(this::toDto)
+    public Collection<ClienteResponse> toCollection(Collection<Cliente> collection) {
+        return collection.stream().map(this::toResponseModel)
                 .collect(Collectors.toList());
     }
 }

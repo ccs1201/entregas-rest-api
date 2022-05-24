@@ -2,7 +2,7 @@ package br.com.ccs.api.controller;
 
 import br.com.ccs.api.domain.model.Entrega;
 import br.com.ccs.api.domain.service.EntregaService;
-import br.com.ccs.api.domain.model.representation.dto.EntregaDto;
+import br.com.ccs.api.domain.model.representation.dto.response.EntregaResponse;
 import br.com.ccs.api.domain.model.representation.util.mapper.EntregaMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
@@ -26,9 +26,9 @@ public class EntregaController {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     @Operation(summary = "Insert a Entrega")
-    public EntregaDto save(@Valid @RequestBody Entrega entrega) {
+    public EntregaResponse save(@Valid @RequestBody Entrega entrega) {
 
-        return mapper.toDto(service.save(entrega));
+        return mapper.toResponseModel(service.save(entrega));
     }
 
     @DeleteMapping("/{id}")
@@ -41,14 +41,14 @@ public class EntregaController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update a Entrega")
-    public EntregaDto update(@PathVariable Long id, @Valid @RequestBody Entrega entrega) {
-        return mapper.toDto(service.update(id, entrega));
+    public EntregaResponse update(@PathVariable Long id, @Valid @RequestBody Entrega entrega) {
+        return mapper.toResponseModel(service.update(id, entrega));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "List all Entrega, plus have a pageable param with sort, direction and page size")
-    public Page<EntregaDto> getAll(@PageableDefault(size = 20, direction = Sort.Direction.ASC, sort = "dataPedido")
+    public Page<EntregaResponse> getAll(@PageableDefault(size = 20, direction = Sort.Direction.ASC, sort = "id")
                                    Pageable pageable) {
 
         return mapper.toPage(service.getAll(pageable));
@@ -57,9 +57,9 @@ public class EntregaController {
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find a Entrega by their id")
-    public EntregaDto findById(@PathVariable Long id) {
+    public EntregaResponse findById(@PathVariable Long id) {
 
-        return mapper.toDto(service.findById(id));
+        return mapper.toResponseModel(service.findById(id));
     }
 
 }

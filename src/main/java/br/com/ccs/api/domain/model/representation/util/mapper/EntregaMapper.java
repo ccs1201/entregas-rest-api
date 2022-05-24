@@ -1,7 +1,7 @@
 package br.com.ccs.api.domain.model.representation.util.mapper;
 
 import br.com.ccs.api.domain.model.Entrega;
-import br.com.ccs.api.domain.model.representation.dto.EntregaDto;
+import br.com.ccs.api.domain.model.representation.dto.response.EntregaResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -12,29 +12,29 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component
-public class EntregaMapper implements MapperInterface<EntregaDto, Entrega> {
+public class EntregaMapper implements MapperInterface<EntregaResponse, Entrega> {
 
     private ModelMapper mapper;
 
     @Override
-    public EntregaDto toDto(Entrega entrega) {
-        return mapper.map(entrega, EntregaDto.class);
+    public EntregaResponse toResponseModel(Entrega entrega) {
+        return mapper.map(entrega, EntregaResponse.class);
     }
 
     @Override
-    public Page<EntregaDto> toPage(Page<Entrega> page) {
-        return page.map(this::toDto);
+    public Page<EntregaResponse> toPage(Page<Entrega> page) {
+        return page.map(this::toResponseModel);
     }
 
     @Override
-    public Collection<EntregaDto> toCollection(Page<Entrega> page) {
-        return page.toList().stream().map(this::toDto)
+    public Collection<EntregaResponse> toCollection(Page<Entrega> page) {
+        return page.toList().stream().map(this::toResponseModel)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Collection<EntregaDto> toCollection(Collection<Entrega> collection) {
-        return collection.stream().map(this::toDto)
+    public Collection<EntregaResponse> toCollection(Collection<Entrega> collection) {
+        return collection.stream().map(this::toResponseModel)
                 .collect(Collectors.toList());
     }
 

@@ -1,5 +1,6 @@
-package br.com.ccs.api.domain.model.representation.dto;
+package br.com.ccs.api.domain.model.representation.dto.response;
 
+import br.com.ccs.api.domain.model.representation.dto.DtoObject;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ClienteDto extends DtoObject{
+public class ClienteResponse extends DtoObject {
 
     private String nome;
     private String email;

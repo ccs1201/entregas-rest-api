@@ -1,27 +1,30 @@
-package br.com.ccs.api.domain.model.representation.dto;
+package br.com.ccs.api.domain.model.representation.dto.response;
 
 import br.com.ccs.api.domain.model.StatusEntrega;
+import br.com.ccs.api.domain.model.representation.dto.DtoObject;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.Collection;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class EntregaDto extends DtoObject{
+public class EntregaResponse extends DtoObject {
 
     private Long id;
-    private DestinatarioDto destinatario;
-    private ClienteDto cliente;
+    private DestinatarioResponse destinatario;
+    private ClienteResponse cliente;
     private BigDecimal valorEntrega;
     private BigDecimal valorComissaoEntrega;
     private StatusEntrega statusEntrega;
     private OffsetDateTime dataPedido;
     private OffsetDateTime dataFinalizacao;
     private int percentualComissao;
+    private Collection<OcorrenciaResumoResponse> ocorencias;
 
     /*public EntregaDto(ModelMapper mapper) {
         this.mapper = mapper;

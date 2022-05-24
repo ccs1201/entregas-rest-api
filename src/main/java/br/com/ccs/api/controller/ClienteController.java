@@ -2,7 +2,7 @@ package br.com.ccs.api.controller;
 
 import br.com.ccs.api.domain.model.Cliente;
 import br.com.ccs.api.domain.service.ClienteService;
-import br.com.ccs.api.domain.model.representation.dto.ClienteDto;
+import br.com.ccs.api.domain.model.representation.dto.response.ClienteResponse;
 import br.com.ccs.api.domain.model.representation.util.mapper.ClienteMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
@@ -25,7 +25,7 @@ public class ClienteController {
 
     @GetMapping
     @Operation(summary = "List all Cliente with plus Pageable")
-    public Page<ClienteDto> getAll(@PageableDefault(size = 20, direction = Sort.Direction.ASC, sort = "nome")
+    public Page<ClienteResponse> getAll(@PageableDefault(size = 20, direction = Sort.Direction.ASC, sort = "nome")
                                 Pageable pageable) {
 
         return mapper.toPage(service.findAll(pageable));
@@ -34,25 +34,25 @@ public class ClienteController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find a Cliente by their id")
-    public ClienteDto findByID(@PathVariable Long id) {
+    public ClienteResponse findByID(@PathVariable Long id) {
 
-        return mapper.toDto(service.findById(id));
+        return mapper.toResponseModel(service.findById(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Insert a Cliente")
-    public ClienteDto save(@Valid @RequestBody Cliente cliente) {
+    public ClienteResponse save(@Valid @RequestBody Cliente cliente) {
 
-        return mapper.toDto(service.save(cliente));
+        return mapper.toResponseModel(service.save(cliente));
 
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update a cliente")
-    public ClienteDto update(@Valid @PathVariable Long id, @RequestBody Cliente cliente) {
-        return mapper.toDto(service.update(id, cliente));
+    public ClienteResponse update(@Valid @PathVariable Long id, @RequestBody Cliente cliente) {
+        return mapper.toResponseModel(service.update(id, cliente));
 
     }
 

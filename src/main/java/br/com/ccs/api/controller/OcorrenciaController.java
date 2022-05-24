@@ -1,7 +1,8 @@
 package br.com.ccs.api.controller;
 
 import br.com.ccs.api.domain.model.Ocorrencia;
-import br.com.ccs.api.domain.model.representation.dto.OcorrenciaDto;
+import br.com.ccs.api.domain.model.representation.dto.response.OcorrenciaResponse;
+import br.com.ccs.api.domain.model.representation.dto.input.OcorrenciaInput;
 import br.com.ccs.api.domain.model.representation.util.mapper.OcorrenciaMapper;
 import br.com.ccs.api.domain.service.OcorrenciaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,26 +17,28 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/ocorrencias")
+@RequestMapping("/api/entrega/{entregaId}")
 @AllArgsConstructor
 public class OcorrenciaController {
 
 
     private OcorrenciaService service;
+
     private OcorrenciaMapper mapper;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Save ocorrencia.")
-    public OcorrenciaDto save(@Valid @RequestBody Ocorrencia ocorrencia) {
-        return mapper.toDto(service.save(ocorrencia));
+    public OcorrenciaResponse save(@Valid @RequestBody OcorrenciaInput ocorrencia, @PathVariable Long entregaId) {
+
+        return mapper.toResponseModel(service.cadastrarOcorrencia(entregaId,ocorrencia));
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update ocorrencia")
-    public OcorrenciaDto update(@PathVariable Long id, @Valid @RequestBody Ocorrencia ocorrencia) {
-        return mapper.toDto(service.update(id, ocorrencia));
+    public OcorrenciaResponse update(@PathVariable Long id, @Valid @RequestBody Ocorrencia ocorrencia) {
+        return mapper.toResponseModel(service.update(id, ocorrencia));
     }
 
     @DeleteMapping("/{id}")
@@ -45,22 +48,22 @@ public class OcorrenciaController {
         service.delete(id);
     }
 
-    @RequestMapping
+    @GetMapping("/ocorrencias")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "List All Ocorrencias, plus Pageable")
-    public Page<OcorrenciaDto> getAll(@PageableDefault(size = 20, direction = Sort.Direction.ASC, sort = "dataRegistro")
+    @Operation(summary = "List All Ocorrencias from an Entrega, plus Pageable")
+    public Page<OcorrenciaResponse> getAll(@PathVariable Long entregaId, @PageableDefault(size = 20, direction = Sort.Direction.ASC, sort = "dataCadastro")
                                       Pageable pageable) {
 
-        return mapper.toPage(service.findAll(pageable));
+        return mapper.toPage(service.findByEntregaId(entregaId, pageable));
 
     }
 
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find Ocorrencia by their id")
-    public OcorrenciaDto findById(@PathVariable Long id) {
+    public OcorrenciaResponse findById(@PathVariable Long id) {
 
-        return mapper.toDto(service.findById(id));
+        return mapper.toResponseModel(service.findById(id));
     }
 
 }

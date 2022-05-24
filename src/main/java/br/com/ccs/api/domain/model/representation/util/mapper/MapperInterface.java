@@ -5,13 +5,13 @@ import org.springframework.data.domain.Page;
 
 import java.util.Collection;
 
-public interface MapperInterface<DTO extends DtoObject, ENTITY> {
+public interface MapperInterface<RESPONSEMODEL extends DtoObject, ENTITY> {
 
-    DTO toDto(ENTITY entity);
+    RESPONSEMODEL toResponseModel(ENTITY entity);
 
-    Page<DTO> toPage(Page<ENTITY> page);
+    Page<RESPONSEMODEL> toPage(Page<ENTITY> page);
 
-    Collection<DTO> toCollection(Page<ENTITY> page);
+    Collection<RESPONSEMODEL> toCollection(Page<ENTITY> page);
 
-    Collection<DTO> toCollection(Collection<ENTITY> collection);
+    Collection<RESPONSEMODEL> toCollection(Collection<ENTITY> collection);
 }

@@ -2,7 +2,7 @@ package br.com.ccs.api.controller;
 
 import br.com.ccs.api.domain.model.Destinatario;
 import br.com.ccs.api.domain.service.DestinatarioService;
-import br.com.ccs.api.domain.model.representation.dto.DestinatarioDto;
+import br.com.ccs.api.domain.model.representation.dto.response.DestinatarioResponse;
 import br.com.ccs.api.domain.model.representation.util.mapper.DestinatarioMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
@@ -26,9 +26,9 @@ public class DestinatarioController {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     @Operation(summary = "Insert a Destinatario")
-    public DestinatarioDto save(@Valid @RequestBody Destinatario destinatario) {
+    public DestinatarioResponse save(@Valid @RequestBody Destinatario destinatario) {
 
-        return mapper.toDto(service.save(destinatario));
+        return mapper.toResponseModel(service.save(destinatario));
     }
 
     @DeleteMapping("/{id}")
@@ -41,15 +41,15 @@ public class DestinatarioController {
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     @Operation(summary = "Update a Destinatario")
-    public DestinatarioDto update(@PathVariable Long id, @Valid @RequestBody Destinatario destinatario) {
+    public DestinatarioResponse update(@PathVariable Long id, @Valid @RequestBody Destinatario destinatario) {
 
-        return mapper.toDto(service.update(id, destinatario));
+        return mapper.toResponseModel(service.update(id, destinatario));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "List All Destinatario, plus pageable")
-    public Page<DestinatarioDto> getAll(@PageableDefault(
+    public Page<DestinatarioResponse> getAll(@PageableDefault(
             sort = "nome", direction = Sort.Direction.ASC, size = 20)
                                      Pageable pageable) {
         return mapper.toPage(service.findAll(pageable));
@@ -58,8 +58,8 @@ public class DestinatarioController {
     @GetMapping("/findByNome")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find all Destinatario containing 'Param' String 'Nome', plus pageable")
-    public Page<DestinatarioDto> findByNome(@RequestParam String nome,
-                                         @PageableDefault(
+    public Page<DestinatarioResponse> findByNome(@RequestParam String nome,
+                                                 @PageableDefault(
                                                  sort = "nome", direction = Sort.Direction.ASC, size = 20)
                                          Pageable pageable) {
 
@@ -69,7 +69,7 @@ public class DestinatarioController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find a Destinatario by their id")
-    public DestinatarioDto findById(@PathVariable Long id){
-        return mapper.toDto(service.findById(id));
+    public DestinatarioResponse findById(@PathVariable Long id){
+        return mapper.toResponseModel(service.findById(id));
     }
 }

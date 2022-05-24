@@ -48,31 +48,31 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Object> entityNotFoundExceptionHandler(CrudException ex, WebRequest request) {
 
-      return createHandlerException(ex, HttpStatus.NOT_FOUND, request);
+        return createHandlerException(ex, HttpStatus.NOT_FOUND, request);
     }
 
 
     @ExceptionHandler(CrudException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public ResponseEntity<Object> cruExceptionHandler(CrudException ex, WebRequest request) {
-        return createHandlerException(ex,HttpStatus.NOT_ACCEPTABLE, request);
+        return createHandlerException(ex, HttpStatus.NOT_ACCEPTABLE, request);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Object> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException ex, WebRequest request){
-       return createHandlerException(ex, HttpStatus.BAD_REQUEST, request);
+    public ResponseEntity<Object> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException ex, WebRequest request) {
+        return createHandlerException(ex, HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(PropertyReferenceException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Object> propertyReferenceExceptionHandler(PropertyReferenceException ex, WebRequest request){
-      return  createHandlerException(ex,HttpStatus.BAD_REQUEST, request);
+    public ResponseEntity<Object> propertyReferenceExceptionHandler(PropertyReferenceException ex, WebRequest request) {
+        return createHandlerException(ex, HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Object> constraintViolationExceptionHandler(ConstraintViolationException ex, WebRequest request){
+    public ResponseEntity<Object> constraintViolationExceptionHandler(ConstraintViolationException ex, WebRequest request) {
         ErrorDto dto = new ErrorDto();
 
         dto.setDataHora(OffsetDateTime.now());
@@ -80,14 +80,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         dto.setMensagem(ex.getMessage());
 
         ex.getConstraintViolations().forEach(error -> dto.getCampos().add(
-                dto.new Campo(error.getPropertyPath().toString(),error.getMessage())));
+                dto.new Campo(error.getPropertyPath().toString(), error.getMessage())));
 
         return createHandlerException(ex, HttpStatus.BAD_REQUEST, request, dto);
     }
 
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Object> invalidDataAccessApiUsageExceptionHandler(InvalidDataAccessApiUsageException ex, WebRequest request){
+    public ResponseEntity<Object> invalidDataAccessApiUsageExceptionHandler(InvalidDataAccessApiUsageException ex, WebRequest request) {
 
         return createHandlerException(ex, HttpStatus.BAD_REQUEST, request);
 
@@ -95,11 +95,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<Object> sqlLIntegrityConstraintViolationExceptionHandler( SQLIntegrityConstraintViolationException ex, WebRequest request){
-        return  createHandlerException(ex,HttpStatus.INTERNAL_SERVER_ERROR, request);
+    public ResponseEntity<Object> sqlLIntegrityConstraintViolationExceptionHandler(SQLIntegrityConstraintViolationException ex, WebRequest request) {
+        return createHandlerException(ex, HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
-    private ResponseEntity<Object> createHandlerException(Exception exception, HttpStatus httpStatus, WebRequest request){
+    @ExceptionHandler(EntregaException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> entregaExceptionHandler(EntregaException ex, WebRequest request) {
+        return createHandlerException(ex, HttpStatus.BAD_REQUEST, request);
+    }
+
+    private ResponseEntity<Object> createHandlerException(Exception exception, HttpStatus httpStatus, WebRequest request) {
         ErrorDto dto = new ErrorDto();
 
         dto.setDataHora(OffsetDateTime.now());
@@ -109,7 +115,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(exception, dto, new HttpHeaders(), httpStatus, request);
     }
 
-    private ResponseEntity<Object> createHandlerException(Exception exception, HttpStatus httpStatus, WebRequest request, ErrorDto errorDto){
+    private ResponseEntity<Object> createHandlerException(Exception exception, HttpStatus httpStatus, WebRequest request, ErrorDto errorDto) {
 
         return handleExceptionInternal(exception, errorDto, new HttpHeaders(), httpStatus, request);
     }

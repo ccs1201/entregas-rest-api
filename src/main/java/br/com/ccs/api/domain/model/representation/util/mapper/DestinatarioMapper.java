@@ -1,7 +1,7 @@
 package br.com.ccs.api.domain.model.representation.util.mapper;
 
 import br.com.ccs.api.domain.model.Destinatario;
-import br.com.ccs.api.domain.model.representation.dto.DestinatarioDto;
+import br.com.ccs.api.domain.model.representation.dto.response.DestinatarioResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -12,29 +12,29 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component
-public class DestinatarioMapper implements MapperInterface<DestinatarioDto, Destinatario> {
+public class DestinatarioMapper implements MapperInterface<DestinatarioResponse, Destinatario> {
 
     ModelMapper mapper;
 
     @Override
-    public DestinatarioDto toDto(Destinatario destinatario) {
-        return mapper.map(destinatario, DestinatarioDto.class);
+    public DestinatarioResponse toResponseModel(Destinatario destinatario) {
+        return mapper.map(destinatario, DestinatarioResponse.class);
     }
 
     @Override
-    public Page<DestinatarioDto> toPage(Page<Destinatario> page) {
-        return page.map(this::toDto);
+    public Page<DestinatarioResponse> toPage(Page<Destinatario> page) {
+        return page.map(this::toResponseModel);
     }
 
     @Override
-    public Collection<DestinatarioDto> toCollection(Page<Destinatario> page) {
-        return page.toList().stream().map(this::toDto)
+    public Collection<DestinatarioResponse> toCollection(Page<Destinatario> page) {
+        return page.toList().stream().map(this::toResponseModel)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Collection<DestinatarioDto> toCollection(Collection<Destinatario> collection) {
-        return collection.stream().map(this::toDto)
+    public Collection<DestinatarioResponse> toCollection(Collection<Destinatario> collection) {
+        return collection.stream().map(this::toResponseModel)
                 .collect(Collectors.toList());
     }
 }

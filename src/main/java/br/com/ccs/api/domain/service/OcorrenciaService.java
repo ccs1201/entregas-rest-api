@@ -2,6 +2,7 @@ package br.com.ccs.api.domain.service;
 
 import br.com.ccs.api.domain.exception.EntityNotFoundException;
 import br.com.ccs.api.domain.model.Ocorrencia;
+import br.com.ccs.api.domain.model.representation.dto.input.OcorrenciaInput;
 import br.com.ccs.api.repository.OcorrenciaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.OffsetDateTime;
 
 @Service
 @AllArgsConstructor
@@ -18,10 +21,18 @@ public class OcorrenciaService {
     EntregaService entregaService;
 
     @Transactional
-    public Ocorrencia save(Ocorrencia ocorrencia) {
+    public Ocorrencia cadastrarOcorrencia(Ocorrencia ocorrencia) {
         ocorrencia.setEntrega(entregaService.findById(ocorrencia.getEntrega().getId()));
+        ocorrencia.setDataCadastro(OffsetDateTime.now());
 
         return repository.save(ocorrencia);
+    }
+
+    @Transactional
+    public Ocorrencia cadastrarOcorrencia(Long entregaId, OcorrenciaInput ocorrenciaInput) {
+
+        return entregaService.findById(entregaId).addOcorrencia(ocorrenciaInput.getDescricaoOcorrencia());
+
     }
 
     @Transactional
@@ -54,7 +65,13 @@ public class OcorrenciaService {
 
 
     public Page<Ocorrencia> findByEntregaId(Long entregaId, Pageable pageable) {
-        return repository.findByEntregaId(entregaId, pageable);
+        Page<Ocorrencia> ocorrencias = repository.findByEntregaId(entregaId, pageable);
+
+        if (ocorrencias.isEmpty()) {
+            throw createEntityNotFoundException(entregaId);
+        }
+
+        return ocorrencias;
     }
 
 
@@ -67,6 +84,5 @@ public class OcorrenciaService {
 
         return new EntityNotFoundException("Ocorrencia ID: " + id + ", não existe.");
     }
-
 
 }
