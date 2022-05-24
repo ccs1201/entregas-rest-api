@@ -1,10 +1,11 @@
 package br.com.ccs.api.domain.model.representation.util.mapper;
 
+import br.com.ccs.api.annotation.MapperEntity;
+import br.com.ccs.api.annotation.TipoMapper;
 import br.com.ccs.api.domain.model.entity.Cliente;
 import br.com.ccs.api.domain.model.representation.dto.response.ClienteResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component
-@Qualifier("clienteMapper")
+@TipoMapper(MapperEntity.CLIENTE)
 public class ClienteMapper implements MapperInterface<ClienteResponse, Cliente> {
     ModelMapper mapper;
 

@@ -1,5 +1,7 @@
 package br.com.ccs.api.controller;
 
+import br.com.ccs.api.annotation.MapperEntity;
+import br.com.ccs.api.annotation.TipoMapper;
 import br.com.ccs.api.domain.model.entity.Ocorrencia;
 import br.com.ccs.api.domain.model.representation.dto.input.OcorrenciaInput;
 import br.com.ccs.api.domain.model.representation.dto.response.OcorrenciaResponse;
@@ -7,7 +9,6 @@ import br.com.ccs.api.domain.model.representation.util.mapper.MapperInterface;
 import br.com.ccs.api.domain.service.OcorrenciaService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,7 +23,7 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class OcorrenciaController {
     private OcorrenciaService service;
-    @Qualifier("ocorrenciaMapper")
+    @TipoMapper(MapperEntity.OCORRENCIA)
     private MapperInterface<OcorrenciaResponse, Ocorrencia> mapper;
 
     @PostMapping

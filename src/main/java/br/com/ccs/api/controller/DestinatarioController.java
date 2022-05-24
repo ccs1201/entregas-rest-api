@@ -1,12 +1,13 @@
 package br.com.ccs.api.controller;
 
+import br.com.ccs.api.annotation.MapperEntity;
+import br.com.ccs.api.annotation.TipoMapper;
 import br.com.ccs.api.domain.model.entity.Destinatario;
 import br.com.ccs.api.domain.model.representation.dto.response.DestinatarioResponse;
 import br.com.ccs.api.domain.model.representation.util.mapper.MapperInterface;
 import br.com.ccs.api.domain.service.DestinatarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,7 +23,7 @@ import javax.validation.Valid;
 public class DestinatarioController {
 
     DestinatarioService service;
-    @Qualifier("destinatarioMapper")
+    @TipoMapper(MapperEntity.DESTINATARIO)
     MapperInterface<DestinatarioResponse, Destinatario> mapper;
 
     @PostMapping
