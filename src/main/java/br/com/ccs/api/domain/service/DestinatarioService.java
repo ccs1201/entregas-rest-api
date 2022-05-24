@@ -1,7 +1,7 @@
 package br.com.ccs.api.domain.service;
 
 import br.com.ccs.api.domain.exception.EntityNotFoundException;
-import br.com.ccs.api.domain.model.Destinatario;
+import br.com.ccs.api.domain.model.entity.Destinatario;
 import br.com.ccs.api.repository.DestinatarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -54,8 +52,6 @@ public class DestinatarioService {
         try {
             return repository.findById(id).get();
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException("Destinatário ID: " + id + " não existe.");
-        } catch (NoSuchElementException e) {
             throw new EntityNotFoundException("Destinatário ID: " + id + " não existe.");
         }
     }

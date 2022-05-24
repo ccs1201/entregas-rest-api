@@ -1,6 +1,6 @@
 package br.com.ccs.api.controller;
 
-import br.com.ccs.api.domain.model.Ocorrencia;
+import br.com.ccs.api.domain.model.entity.Ocorrencia;
 import br.com.ccs.api.domain.model.representation.dto.input.OcorrenciaInput;
 import br.com.ccs.api.domain.model.representation.dto.response.OcorrenciaResponse;
 import br.com.ccs.api.domain.model.representation.util.mapper.MapperInterface;

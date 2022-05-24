@@ -1,6 +1,6 @@
 package br.com.ccs.api.controller;
 
-import br.com.ccs.api.domain.model.Cliente;
+import br.com.ccs.api.domain.model.entity.Cliente;
 import br.com.ccs.api.domain.model.representation.dto.response.ClienteResponse;
 import br.com.ccs.api.domain.model.representation.util.mapper.MapperInterface;
 import br.com.ccs.api.domain.service.ClienteService;

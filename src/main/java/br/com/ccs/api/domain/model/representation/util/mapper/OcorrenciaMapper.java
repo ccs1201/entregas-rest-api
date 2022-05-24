@@ -1,6 +1,6 @@
 package br.com.ccs.api.domain.model.representation.util.mapper;
 
-import br.com.ccs.api.domain.model.Ocorrencia;
+import br.com.ccs.api.domain.model.entity.Ocorrencia;
 import br.com.ccs.api.domain.model.representation.dto.response.OcorrenciaResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;

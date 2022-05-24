@@ -1,6 +1,6 @@
 package br.com.ccs.api.domain.model.representation.util.mapper;
 
-import br.com.ccs.api.domain.model.Destinatario;
+import br.com.ccs.api.domain.model.entity.Destinatario;
 import br.com.ccs.api.domain.model.representation.dto.response.DestinatarioResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;

@@ -1,8 +1,8 @@
 package br.com.ccs.api.controller;
 
-import br.com.ccs.api.domain.model.Cliente;
-import br.com.ccs.api.domain.model.Destinatario;
-import br.com.ccs.api.domain.model.Entrega;
+import br.com.ccs.api.domain.model.entity.Cliente;
+import br.com.ccs.api.domain.model.entity.Destinatario;
+import br.com.ccs.api.domain.model.entity.Entrega;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

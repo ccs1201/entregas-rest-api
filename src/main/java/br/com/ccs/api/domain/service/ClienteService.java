@@ -2,7 +2,7 @@ package br.com.ccs.api.domain.service;
 
 import br.com.ccs.api.domain.exception.CrudException;
 import br.com.ccs.api.domain.exception.EntityNotFoundException;
-import br.com.ccs.api.domain.model.Cliente;
+import br.com.ccs.api.domain.model.entity.Cliente;
 import br.com.ccs.api.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;

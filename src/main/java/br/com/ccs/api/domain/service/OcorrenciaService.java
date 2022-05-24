@@ -1,7 +1,7 @@
 package br.com.ccs.api.domain.service;
 
 import br.com.ccs.api.domain.exception.EntityNotFoundException;
-import br.com.ccs.api.domain.model.Ocorrencia;
+import br.com.ccs.api.domain.model.entity.Ocorrencia;
 import br.com.ccs.api.domain.model.representation.dto.input.OcorrenciaInput;
 import br.com.ccs.api.repository.OcorrenciaRepository;
 import lombok.AllArgsConstructor;

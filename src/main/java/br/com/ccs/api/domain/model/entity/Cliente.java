@@ -1,4 +1,4 @@
-package br.com.ccs.api.domain.model;
+package br.com.ccs.api.domain.model.entity;
 
 import br.com.ccs.api.domain.validation.ValidationsGroups;
 import lombok.*;

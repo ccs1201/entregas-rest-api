@@ -1,6 +1,6 @@
 package br.com.ccs.api.domain.model.representation.dto.response;
 
-import br.com.ccs.api.domain.model.StatusEntrega;
+import br.com.ccs.api.domain.model.entity.StatusEntrega;
 import br.com.ccs.api.domain.model.representation.dto.DtoObject;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.Collection;
 
 @Getter
 @Setter
@@ -24,7 +23,6 @@ public class EntregaResponse extends DtoObject {
     private OffsetDateTime dataPedido;
     private OffsetDateTime dataFinalizacao;
     private int percentualComissao;
-    private Collection<OcorrenciaResumoResponse> ocorencias;
 
     /*public EntregaDto(ModelMapper mapper) {
         this.mapper = mapper;

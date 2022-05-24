@@ -1,8 +1,8 @@
 package br.com.ccs.api.domain.service;
 
-import br.com.ccs.api.domain.model.Cliente;
-import br.com.ccs.api.domain.model.Destinatario;
-import br.com.ccs.api.domain.model.Entrega;
+import br.com.ccs.api.domain.model.entity.Cliente;
+import br.com.ccs.api.domain.model.entity.Destinatario;
+import br.com.ccs.api.domain.model.entity.Entrega;
 import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

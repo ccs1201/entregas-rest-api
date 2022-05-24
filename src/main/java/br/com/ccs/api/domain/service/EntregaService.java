@@ -1,8 +1,8 @@
 package br.com.ccs.api.domain.service;
 
 import br.com.ccs.api.domain.exception.EntityNotFoundException;
-import br.com.ccs.api.domain.model.Entrega;
-import br.com.ccs.api.domain.model.StatusEntrega;
+import br.com.ccs.api.domain.model.entity.Entrega;
+import br.com.ccs.api.domain.model.entity.StatusEntrega;
 import br.com.ccs.api.repository.EntregaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
