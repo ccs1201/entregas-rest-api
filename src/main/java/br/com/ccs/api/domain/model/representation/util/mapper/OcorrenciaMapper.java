@@ -4,6 +4,7 @@ import br.com.ccs.api.domain.model.Ocorrencia;
 import br.com.ccs.api.domain.model.representation.dto.response.OcorrenciaResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
+@Qualifier("ocorrenciaMapper")
 public class OcorrenciaMapper implements MapperInterface<OcorrenciaResponse, Ocorrencia> {
 
     ModelMapper mapper;

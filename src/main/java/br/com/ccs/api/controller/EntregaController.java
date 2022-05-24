@@ -1,11 +1,12 @@
 package br.com.ccs.api.controller;
 
 import br.com.ccs.api.domain.model.Entrega;
-import br.com.ccs.api.domain.service.EntregaService;
 import br.com.ccs.api.domain.model.representation.dto.response.EntregaResponse;
-import br.com.ccs.api.domain.model.representation.util.mapper.EntregaMapper;
+import br.com.ccs.api.domain.model.representation.util.mapper.MapperInterface;
+import br.com.ccs.api.domain.service.EntregaService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,7 +22,8 @@ import javax.validation.Valid;
 public class EntregaController {
 
     EntregaService service;
-    EntregaMapper mapper;
+    @Qualifier("entregaMapper")
+    MapperInterface<EntregaResponse, Entrega> mapper;
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)

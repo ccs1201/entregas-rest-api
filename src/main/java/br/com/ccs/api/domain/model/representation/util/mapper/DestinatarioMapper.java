@@ -4,6 +4,7 @@ import br.com.ccs.api.domain.model.Destinatario;
 import br.com.ccs.api.domain.model.representation.dto.response.DestinatarioResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component
+@Qualifier("destinatarioMapper")
 public class DestinatarioMapper implements MapperInterface<DestinatarioResponse, Destinatario> {
 
     ModelMapper mapper;

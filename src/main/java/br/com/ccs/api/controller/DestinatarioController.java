@@ -1,11 +1,12 @@
 package br.com.ccs.api.controller;
 
 import br.com.ccs.api.domain.model.Destinatario;
-import br.com.ccs.api.domain.service.DestinatarioService;
 import br.com.ccs.api.domain.model.representation.dto.response.DestinatarioResponse;
-import br.com.ccs.api.domain.model.representation.util.mapper.DestinatarioMapper;
+import br.com.ccs.api.domain.model.representation.util.mapper.MapperInterface;
+import br.com.ccs.api.domain.service.DestinatarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,7 +22,8 @@ import javax.validation.Valid;
 public class DestinatarioController {
 
     DestinatarioService service;
-    DestinatarioMapper mapper;
+    @Qualifier("destinatarioMapper")
+    MapperInterface<DestinatarioResponse, Destinatario> mapper;
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)

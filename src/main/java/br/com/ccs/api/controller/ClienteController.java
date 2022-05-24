@@ -1,11 +1,12 @@
 package br.com.ccs.api.controller;
 
 import br.com.ccs.api.domain.model.Cliente;
-import br.com.ccs.api.domain.service.ClienteService;
 import br.com.ccs.api.domain.model.representation.dto.response.ClienteResponse;
-import br.com.ccs.api.domain.model.representation.util.mapper.ClienteMapper;
+import br.com.ccs.api.domain.model.representation.util.mapper.MapperInterface;
+import br.com.ccs.api.domain.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,7 +22,8 @@ import javax.validation.Valid;
 public class ClienteController {
 
     ClienteService service;
-    ClienteMapper mapper;
+    @Qualifier("clienteMapper")
+    MapperInterface<ClienteResponse, Cliente> mapper;
 
     @GetMapping
     @Operation(summary = "List all Cliente with plus Pageable")
